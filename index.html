@@ -162,7 +162,6 @@
 </header>
 
 <div id="screen-intro" class="screen active">
-  <div class="eyebrow">BG.legal Quickscan</div>
   <h1>Breng uw AI en Data<br>verplichtingen in kaart</h1>
   <p class="hero-sub">Beantwoord gerichte vragen over uw AI-, data- of automatiseringsproject. Met de antwoorden wordt een check gedaan of en welke regelgeving voor uw project relevant is.</p>
   <div class="meta-row">
@@ -174,7 +173,7 @@
   <div class="coverage-row">
     <div class="coverage-label">Gedekte regelgeving</div>
     <div class="tags">
-      <span class="tag">EU AI Act</span><span class="tag">AVG</span><span class="tag">Data Act</span><span class="tag">Data Governance Act</span><span class="tag">MDR</span><span class="tag">NIS2</span><span class="tag">Cyber Resilience Act</span><span class="tag">Accessibility Act</span><span class="tag">IE-rechten</span>
+      <span class="tag">AI Act</span><span class="tag">AVG</span><span class="tag">Data Act</span><span class="tag">Data Governance Act</span><span class="tag">MDR</span><span class="tag">NIS2</span><span class="tag">Cyber Resilience Act</span><span class="tag">Accessibility Act</span><span class="tag">IE-rechten</span>
     </div>
   </div>
 </div>
@@ -200,13 +199,13 @@
 <div id="screen-email" class="screen">
   <div class="email-icon">📋</div>
   <div class="email-gate-title">Uw rapport is <em>gereed</em></div>
-  <p class="email-gate-sub">Vul uw gegevens in om uw persoonlijk compliance-rapport te ontvangen. Het rapport wordt direct naar uw e-mailadres verzonden.</p>
+  <p class="email-gate-sub">Vul uw gegevens in om uw persoonlijk rapport te ontvangen. Het rapport wordt ook direct naar uw e-mailadres verzonden.</p>
   <div class="email-field-wrap">
     <input type="text" id="user-name" class="name-input" placeholder="Uw naam" />
     <input type="text" id="user-org" class="org-input" placeholder="Organisatie / bedrijfsnaam" />
     <input type="email" id="user-email" class="email-input" placeholder="uw@emailadres.nl" oninput="clearEmailError()" />
     <div class="email-error" id="email-error">Voer een geldig e-mailadres in.</div>
-    <button class="btn-email-submit" id="btn-submit-email" onclick="submitEmail()">Bekijk mijn compliance-rapport →</button>
+    <button class="btn-email-submit" id="btn-submit-email" onclick="submitEmail()">Bekijk mijn rapport →</button>
   </div>
   <p class="email-privacy">🔒 Uw resultaten worden naar uw e-mailadres verzonden. Wij respecteren uw privacy en delen uw gegevens niet met derden.</p>
 </div>
@@ -215,13 +214,13 @@
   <div class="results-header">
 
     <div class="results-left">
-      <div class="results-title">Uw <em>compliance</em> overzicht</div>
+      <div class="results-title">Uw <em>Qickscan</em> rapport</div>
       <div style="margin-top:10px;font-size:0.88rem;color:var(--muted);font-weight:300" id="results-user-info"></div>
     </div>
     <div id="risk-band" class="risk-band high"></div>
   </div>
 </div>
-  <p class="section-title">Regelgeving — Toepasselijkheid</p>
+  <p class="section-title">Regelgeving &amp; Toepasselijkheid</p>
   <table class="module-table" id="module-table">
     <thead><tr><th>Regelgeving</th><th>Relevant?</th><th>Fase(n) AI Assessment Cycle</th><th>Prioriteit</th></tr></thead>
     <tbody id="module-tbody"></tbody>
