@@ -721,8 +721,7 @@ function _buildAndSavePDF(){
   const bL=hasBlocker?'DIRECTE ACTIE VEREIST':hasWarning?'ACTIE VEREIST':'MINIMAAL RISICO';
   
   // AANGEPAST: Kleinere risk-band badge (was 52x10, nu 42x8)
-  doc.setFillColor(...bC);doc.roundedRect(pageW-margin-42,9,42,8,2,2,'F');
-  sf('bold',6,C.white);doc.text(bL,pageW-margin-21,13.5,{align:'center'});
+sf('bold',5,C.white); const lblW = doc.getTextWidth(lc.label) + 6; doc.setFillColor(...lc.text); doc.roundedRect(margin+3, y+3, lblW, 4.5, 1, 1, 'F'); doc.text(lc.label, margin+3 + lblW/2, y+6.2, {align:'center'});
   y=58;
 
   // Info card
