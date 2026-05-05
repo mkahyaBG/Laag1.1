@@ -247,7 +247,7 @@
       <p>Boek een gratis 30 minuten gesprek met een AI-compliance specialist en zet de uitkomsten om in een concreet actieplan.</p>
     </div>
     <div style="display:flex;gap:12px;flex-wrap:wrap">
-      <button class="btn-cta" onclick="window.open('mailto:info@bg.legal?subject=Afspraak AI Compliance','_blank')">Neem contact op →</button>
+      <button class="btn-cta" onclick="window.open('mailto:info@bg.legal?subject=Afspraak Quickscan','_blank')">Neem contact op →</button>
       <button class="btn-restart" onclick="restart()">Opnieuw beginnen</button>
     </div>
   </div>
@@ -672,12 +672,12 @@ function buildReportText(){
     }
     lines.push('V: '+q.text);lines.push('A: '+ansStr);
   });
-  lines.push('\nbg.legal | info@bg.legal');
+  lines.push('\nBG.legal | webmaster@bg.legal');
   return lines.join('\n');
 }
 
 async function sendEmails(userEmail,reportText){
-  const BG_EMAIL='info@bg.legal';
+  const BG_EMAIL='webmaster@bg.legal';
   const dateStr=new Date().toLocaleDateString('nl-NL',{day:'2-digit',month:'long',year:'numeric'});
   const fd1=new FormData();
   fd1.append('_to',userEmail);fd1.append('_replyto',BG_EMAIL);fd1.append('_subject','Uw AI/Data Compliance Rapport — bg.legal');fd1.append('_template','box');
@@ -712,9 +712,9 @@ function _buildAndSavePDF(){
   // Cover
   dr(0,0,pageW,52,C.ink,null);
   doc.setFillColor(...C.accent);doc.circle(margin+3,14,2.5,'F');
-  sf('bold',11,C.white);doc.text('AI Compliance Scan',margin+9,15);
-  sf('normal',7.5,[180,180,220]);doc.text('bg.legal | AI · Data · Automatisering',margin+9,20);
-  sf('bold',20,C.white);doc.text('Compliance Quickscan',margin,36);
+  sf('bold',11,C.white);doc.text('Quickscan AI &and Data',margin+9,15);
+  sf('normal',7.5,[180,180,220]);doc.text('BG.legal | AI / Data / Automatisering',margin+9,20);
+  sf('bold',20,C.white);doc.text('Quickscan AI &and Data',margin,36);
   sf('normal',11,[180,180,220]);doc.text('AI · Data · Automatisering — Rapportage',margin,43);
   const hasBlocker=findings.some(f=>f.level==='blocker'),hasWarning=findings.some(f=>f.level==='warning');
   const bC=hasBlocker?C.red:hasWarning?C.amber:C.green;
@@ -725,10 +725,10 @@ sf('bold',6,C.white); const coverLblW = doc.getTextWidth(bL) + 8; doc.setFillCol
 
   // Info card
   dr(margin,y,contentW,32,C.paper,C.cream);
-  sf('bold',7.5,C.muted);doc.text('NAAM',margin+5,y+7);doc.text('ORGANISATIE',margin+65,y+7);doc.text('DATUM',margin+130,y+7);
-  sf('normal',9,C.ink);doc.text(userInfo.name.substring(0,30),margin+5,y+14);doc.text(userInfo.org.substring(0,30),margin+65,y+14);doc.text(dateStr,margin+130,y+14);
-  sf('bold',7.5,C.muted);doc.text('E-MAIL',margin+5,y+22);
-  sf('normal',8,C.ink);doc.text(userInfo.email.substring(0,60),margin+5,y+28);
+  sf('bold',9,C.muted);doc.text('NAAM',margin+5,y+7);doc.text('ORGANISATIE',margin+65,y+7);doc.text('DATUM',margin+130,y+7);
+  sf('normal',10.5,C.ink);doc.text(userInfo.name.substring(0,30),margin+5,y+14);doc.text(userInfo.org.substring(0,30),margin+65,y+14);doc.text(dateStr,margin+130,y+14);
+  sf('bold',9,C.muted);doc.text('E-MAIL',margin+5,y+22);
+  sf('normal',9.5,C.ink);doc.text(userInfo.email.substring(0,60),margin+5,y+28);
   y+=38;
 
   function secHdr(title){chk(14);y+=6;sf('bold',10,C.ink);doc.text(title,margin,y+5.5);y+=10;doc.setDrawColor(...C.cream);doc.setLineWidth(0.4);doc.line(margin,y-2,pageW-margin,y-2);}
@@ -743,18 +743,18 @@ sf('bold',6,C.white); const coverLblW = doc.getTextWidth(bL) + 8; doc.setFillCol
   modules.forEach((m,idx)=>{
     chk(9);if(idx%2===0){doc.setFillColor(...C.paper);doc.rect(margin,y,contentW,8,'F');}
     cx=margin;
-    sf('bold',7.5,C.ink);doc.text(m.name.substring(0,28),cx+2,y+5.5);cx+=colW[0];
+    sf('bold',9,C.ink);doc.text(m.name.substring(0,28),cx+2,y+5.5);cx+=colW[0];
     
     // AANGEPAST: Kleinere "Ja/Nee" pill (was 7pt, nu 6pt)
     const rC=m.relevant?C.green:C.muted;
-    sf('bold',6,rC);doc.text(m.relevant?'Ja':'Nee',cx+2,y+5.5);cx+=colW[1];
+    sf('bold',7.5,rC);doc.text(m.relevant?'Ja':'Nee',cx+2,y+5.5);cx+=colW[1];
     
-    sf('normal',6.5,C.muted);doc.text(m.phases.substring(0,35),cx+2,y+5.5);cx+=colW[2];
+    sf('normal',8,C.muted);doc.text(m.phases.substring(0,35),cx+2,y+5.5);cx+=colW[2];
     
     // AANGEPAST: Kleinere prioriteit pill (was 7pt, nu 6pt)
     const pStr=m.priority.replace(/[🔴🟡🟢]/g,'').trim();
     const pC=m.priority.includes('🔴')?C.red:m.priority.includes('🟡')?C.amber:C.green;
-    sf('bold',6,pC);doc.text(pStr.substring(0,15),cx+2,y+5.5);
+    sf('bold',7.5,pC);doc.text(pStr.substring(0,15),cx+2,y+5.5);
     
     doc.setDrawColor(...C.cream);doc.setLineWidth(0.2);doc.line(margin,y+8,pageW-margin,y+8);y+=8;
   });
@@ -764,18 +764,18 @@ sf('bold',6,C.white); const coverLblW = doc.getTextWidth(bL) + 8; doc.setFillCol
   const lcs={blocker:{bg:C.redLt,border:C.red,text:C.red,label:'DIRECTE ACTIE VEREIST'},warning:{bg:C.amberLt,border:C.amber,text:C.amber,label:'ACTIE VEREIST'},info:{bg:C.greenLt,border:C.green,text:C.green,label:'TER INFORMATIE'},note:{bg:C.paper,border:C.accent,text:C.accent,label:'AANDACHTSPUNT'}};
   findings.forEach((f,idx)=>{
     const lc=lcs[f.level]||lcs.note;
-    sf('bold',9,C.ink);const nL=doc.splitTextToSize(f.name.replace(/[🔴🟡🟢]/g,'').trim(),contentW-22);
-    sf('normal',7.5,C.muted);const dL=doc.splitTextToSize(f.desc,contentW-22);
+    sf('bold',10.5,C.ink);const nL=doc.splitTextToSize(f.name.replace(/[🔴🟡🟢]/g,'').trim(),contentW-22);
+    sf('normal',9,C.muted);const dL=doc.splitTextToSize(f.desc,contentW-22);
     const rL=f.regs?doc.splitTextToSize(f.regs,contentW-22):[];
     const cH=8+nL.length*5+dL.length*4.2+(rL.length?rL.length*3.8+3:0)+6;
     chk(cH+4);dr(margin,y,contentW,cH,lc.bg,lc.border);
     
     // AANGEPAST: Kleinere level-label badge (was 36x5, nu 30x4.5)
-    sf('bold',5,C.white); const lblW = doc.getTextWidth(lc.label) + 6; doc.setFillColor(...lc.text); doc.roundedRect(margin+3, y+3, lblW, 4.5, 1, 1, 'F'); doc.text(lc.label, margin+3 + lblW/2, y+6.2, {align:'center'});
+    sf('bold',6.5,C.white); const lblW = doc.getTextWidth(lc.label) + 6; doc.setFillColor(...lc.text); doc.roundedRect(margin+3, y+3, lblW, 4.5, 1, 1, 'F'); doc.text(lc.label, margin+3 + lblW/2, y+6.2, {align:'center'});
     
-    sf('bold',7,C.muted);doc.text(String(idx+1).padStart(2,'0'),pageW-margin-5,y+7,{align:'right'});
+    sf('bold',8.5,C.muted);doc.text(String(idx+1).padStart(2,'0'),pageW-margin-5,y+7,{align:'right'});
     let cY=y+11;sf('bold',8.5,C.ink);nL.forEach(l=>{doc.text(l,margin+5,cY);cY+=5;});cY+=1;
-    sf('normal',7,C.muted);dL.forEach(l=>{doc.text(l,margin+5,cY);cY+=4.2;});
+    sf('normal',8.5,C.muted);dL.forEach(l=>{doc.text(l,margin+5,cY);cY+=4.2;});
     if(rL.length){cY+=2;sf('italic',6.5,C.accent);rL.forEach(l=>{doc.text(l,margin+5,cY);cY+=3.8;});}
     y+=cH+4;
   });
@@ -786,18 +786,18 @@ sf('bold',6,C.white); const coverLblW = doc.getTextWidth(bL) + 8; doc.setFillCol
     if(q.step!==lastSt){chk(12);y+=3;doc.setFillColor(220,220,240);doc.rect(margin,y,contentW,8,'F');sf('bold',7.5,C.accent);doc.text((STEPS[q.step]||q.step).toUpperCase(),margin+3,y+5.5);y+=10;lastSt=q.step;}
     const ans=answers[q.id];let aStr='-- Niet beantwoord';
     if(ans!==undefined&&ans!==null&&ans!==''){if(Array.isArray(ans)){aStr=ans.map(v=>{const o=q.options?q.options.find(o=>o.value===v):null;return o?o.label:v;}).join(' | ');}else if(q.options){const o=q.options.find(o=>o.value===ans);aStr=o?o.label:ans;}else aStr=ans;}
-    sf('normal',7,C.ink);const qL=doc.splitTextToSize(q.text,contentW-55);sf('bold',7,C.ink);const aL=doc.splitTextToSize(aStr,52);
+    sf('normal',8.5,C.ink);const qL=doc.splitTextToSize(q.text,contentW-55);sf('bold',7,C.ink);const aL=doc.splitTextToSize(aStr,52);
     const rH=Math.max(qL.length*4,aL.length*4)+5;chk(rH);
-    sf('normal',7,C.muted);qL.forEach((l,i)=>doc.text(l,margin+2,y+4+i*4));sf('bold',7,C.ink);aL.forEach((l,i)=>doc.text(l,pageW-margin-2,y+4+i*4,{align:'right'}));
+    sf('normal',8.5,C.muted);qL.forEach((l,i)=>doc.text(l,margin+2,y+4+i*4));sf('bold',7,C.ink);aL.forEach((l,i)=>doc.text(l,pageW-margin-2,y+4+i*4,{align:'right'}));
     doc.setDrawColor(...C.paper);doc.setLineWidth(0.25);doc.line(margin,y+rH-1,pageW-margin,y+rH-1);y+=rH;
   });
 
   chk(28);y+=6;dr(margin,y,contentW,22,C.paper,C.cream);sf('bold',7,C.muted);doc.text('DISCLAIMER',margin+4,y+6);
-  sf('normal',6.5,C.muted);const dis='Deze quickscan biedt een eerste signalering op basis van zelfrapportage en vormt geen juridisch advies. Regelgevingsverplichtingen hangen af van uw specifieke context en systeemontwerp. Raadpleeg een gekwalificeerde jurist voor specifiek advies.';
+  sf('normal',8,C.muted);const dis='Deze quickscan biedt een eerste signalering op basis van zelfrapportage en vormt geen juridisch advies. Regelgevingsverplichtingen hangen af van uw specifieke context en systeemontwerp. Raadpleeg een gekwalificeerde jurist voor specifiek advies.';
   doc.splitTextToSize(dis,contentW-8).forEach((l,i)=>doc.text(l,margin+4,y+11+i*3.8));y+=28;
 
   const tp=doc.internal.getNumberOfPages();
-  for(let p=1;p<=tp;p++){doc.setPage(p);doc.setFillColor(...C.ink);doc.rect(0,pageH-10,pageW,10,'F');sf('normal',6.5,[180,180,220]);doc.text('bg.legal | info@bg.legal | AI/Data Compliance Scan',margin,pageH-4);doc.text(`Pagina ${p} / ${tp}`,pageW-margin,pageH-4,{align:'right'});}
+  for(let p=1;p<=tp;p++){doc.setPage(p);doc.setFillColor(...C.ink);doc.rect(0,pageH-10,pageW,10,'F');sf('normal',6.5,[180,180,220]);doc.text('BG.legal | info@bg.legal | AI/Data Quickscan',margin,pageH-4);doc.text(`Pagina ${p} / ${tp}`,pageW-margin,pageH-4,{align:'right'});}
   doc.save(fileName);
 }
 function showResults(){
