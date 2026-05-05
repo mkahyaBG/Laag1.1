@@ -719,11 +719,13 @@ function _buildAndSavePDF(){
   const hasBlocker=findings.some(f=>f.level==='blocker'),hasWarning=findings.some(f=>f.level==='warning');
   const bC=hasBlocker?C.red:hasWarning?C.amber:C.green;
   const bL=hasBlocker?'DIRECTE ACTIE VEREIST':hasWarning?'ACTIE VEREIST':'MINIMAAL RISICO';
-  doc.setFillColor(...bC);doc.roundedRect(pageW-margin-52,8,52,10,2,2,'F');
-  sf('bold',7,C.white);doc.text(bL,pageW-margin-26,14.2,{align:'center'});
+  
+  // AANGEPAST: Kleinere risk-band badge (was 52x10, nu 42x8)
+  doc.setFillColor(...bC);doc.roundedRect(pageW-margin-42,9,42,8,2,2,'F');
+  sf('bold',6,C.white);doc.text(bL,pageW-margin-21,13.5,{align:'center'});
   y=58;
 
-  // CHANGE 4: Enlarged info card (height 32, email fits fully)
+  // Info card
   dr(margin,y,contentW,32,C.paper,C.cream);
   sf('bold',7.5,C.muted);doc.text('NAAM',margin+5,y+7);doc.text('ORGANISATIE',margin+65,y+7);doc.text('DATUM',margin+130,y+7);
   sf('normal',9,C.ink);doc.text(userInfo.name.substring(0,30),margin+5,y+14);doc.text(userInfo.org.substring(0,30),margin+65,y+14);doc.text(dateStr,margin+130,y+14);
@@ -731,7 +733,6 @@ function _buildAndSavePDF(){
   sf('normal',8,C.ink);doc.text(userInfo.email.substring(0,60),margin+5,y+28);
   y+=38;
 
-  // CHANGE 3: secHdr without lavender accent rect
   function secHdr(title){chk(14);y+=6;sf('bold',10,C.ink);doc.text(title,margin,y+5.5);y+=10;doc.setDrawColor(...C.cream);doc.setLineWidth(0.4);doc.line(margin,y-2,pageW-margin,y-2);}
 
   secHdr('Regelgeving — Toepasselijkheid');
@@ -745,11 +746,18 @@ function _buildAndSavePDF(){
     chk(9);if(idx%2===0){doc.setFillColor(...C.paper);doc.rect(margin,y,contentW,8,'F');}
     cx=margin;
     sf('bold',7.5,C.ink);doc.text(m.name.substring(0,28),cx+2,y+5.5);cx+=colW[0];
-    const rC=m.relevant?C.green:C.muted;sf('bold',7,rC);doc.text(m.relevant?'Ja':'Nee',cx+2,y+5.5);cx+=colW[1];
+    
+    // AANGEPAST: Kleinere "Ja/Nee" pill (was 7pt, nu 6pt)
+    const rC=m.relevant?C.green:C.muted;
+    sf('bold',6,rC);doc.text(m.relevant?'Ja':'Nee',cx+2,y+5.5);cx+=colW[1];
+    
     sf('normal',6.5,C.muted);doc.text(m.phases.substring(0,35),cx+2,y+5.5);cx+=colW[2];
+    
+    // AANGEPAST: Kleinere prioriteit pill (was 7pt, nu 6pt)
     const pStr=m.priority.replace(/[🔴🟡🟢]/g,'').trim();
     const pC=m.priority.includes('🔴')?C.red:m.priority.includes('🟡')?C.amber:C.green;
-    sf('bold',7,pC);doc.text(pStr.substring(0,15),cx+2,y+5.5);
+    sf('bold',6,pC);doc.text(pStr.substring(0,15),cx+2,y+5.5);
+    
     doc.setDrawColor(...C.cream);doc.setLineWidth(0.2);doc.line(margin,y+8,pageW-margin,y+8);y+=8;
   });
   y+=4;
@@ -763,7 +771,11 @@ function _buildAndSavePDF(){
     const rL=f.regs?doc.splitTextToSize(f.regs,contentW-22):[];
     const cH=8+nL.length*5+dL.length*4.2+(rL.length?rL.length*3.8+3:0)+6;
     chk(cH+4);dr(margin,y,contentW,cH,lc.bg,lc.border);
-    doc.setFillColor(...lc.text);doc.roundedRect(margin+3,y+3,36,5,1,1,'F');sf('bold',5.5,C.white);doc.text(lc.label,margin+21,y+6.5,{align:'center'});
+    
+    // AANGEPAST: Kleinere level-label badge (was 36x5, nu 30x4.5)
+    doc.setFillColor(...lc.text);doc.roundedRect(margin+3,y+3,30,4.5,1,1,'F');
+    sf('bold',5,C.white);doc.text(lc.label,margin+18,y+6.2,{align:'center'});
+    
     sf('bold',7,C.muted);doc.text(String(idx+1).padStart(2,'0'),pageW-margin-5,y+7,{align:'right'});
     let cY=y+11;sf('bold',8.5,C.ink);nL.forEach(l=>{doc.text(l,margin+5,cY);cY+=5;});cY+=1;
     sf('normal',7,C.muted);dL.forEach(l=>{doc.text(l,margin+5,cY);cY+=4.2;});
@@ -791,7 +803,6 @@ function _buildAndSavePDF(){
   for(let p=1;p<=tp;p++){doc.setPage(p);doc.setFillColor(...C.ink);doc.rect(0,pageH-10,pageW,10,'F');sf('normal',6.5,[180,180,220]);doc.text('bg.legal | info@bg.legal | AI/Data Compliance Scan',margin,pageH-4);doc.text(`Pagina ${p} / ${tp}`,pageW-margin,pageH-4,{align:'right'});}
   doc.save(fileName);
 }
-
 function showResults(){
   const findings=computeFindings(),modules=computeModuleResults();
   document.getElementById('results-user-info').textContent=userInfo.name+(userInfo.org&&userInfo.org!=='Niet opgegeven'?' · '+userInfo.org:'')+' · '+new Date().toLocaleDateString('nl-NL',{day:'2-digit',month:'long',year:'numeric'});
