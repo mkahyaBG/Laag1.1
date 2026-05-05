@@ -721,8 +721,7 @@ function _buildAndSavePDF(){
   const bL=hasBlocker?'DIRECTE ACTIE VEREIST':hasWarning?'ACTIE VEREIST':'MINIMAAL RISICO';
   
   // AANGEPAST: Kleinere risk-band badge (was 52x10, nu 42x8)
-sf('bold',5,C.white); const lblW = doc.getTextWidth(lc.label) + 6; doc.setFillColor(...lc.text); doc.roundedRect(margin+3, y+3, lblW, 4.5, 1, 1, 'F'); doc.text(lc.label, margin+3 + lblW/2, y+6.2, {align:'center'});
-  y=58;
+sf('bold',6,C.white); const coverLblW = doc.getTextWidth(bL) + 8; doc.setFillColor(...bC); doc.roundedRect(pageW-margin-coverLblW, 9, coverLblW, 8, 2, 2, 'F'); doc.text(bL, pageW-margin-coverLblW/2, 14.2, {align:'center'}); y=58;
 
   // Info card
   dr(margin,y,contentW,32,C.paper,C.cream);
@@ -772,8 +771,7 @@ sf('bold',5,C.white); const lblW = doc.getTextWidth(lc.label) + 6; doc.setFillCo
     chk(cH+4);dr(margin,y,contentW,cH,lc.bg,lc.border);
     
     // AANGEPAST: Kleinere level-label badge (was 36x5, nu 30x4.5)
-    doc.setFillColor(...lc.text);doc.roundedRect(margin+3,y+3,30,4.5,1,1,'F');
-    sf('bold',5,C.white);doc.text(lc.label,margin+18,y+6.2,{align:'center'});
+    sf('bold',5,C.white); const lblW = doc.getTextWidth(lc.label) + 6; doc.setFillColor(...lc.text); doc.roundedRect(margin+3, y+3, lblW, 4.5, 1, 1, 'F'); doc.text(lc.label, margin+3 + lblW/2, y+6.2, {align:'center'});
     
     sf('bold',7,C.muted);doc.text(String(idx+1).padStart(2,'0'),pageW-margin-5,y+7,{align:'right'});
     let cY=y+11;sf('bold',8.5,C.ink);nL.forEach(l=>{doc.text(l,margin+5,cY);cY+=5;});cY+=1;
