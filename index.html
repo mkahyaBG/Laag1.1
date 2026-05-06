@@ -225,7 +225,7 @@
     <thead><tr><th>Regelgeving</th><th>Relevant?</th><th>Fase(n) AI Assessment Cycle</th><th>Prioriteit</th></tr></thead>
     <tbody id="module-tbody"></tbody>
   </table>
-  <p class="section-title">Bevindingen &amp; aandachtspunten</p>
+  <p class="section-title">Bevindingen en aandachtspunten</p>
   <div class="priority-list" id="priority-list"></div>
   <p class="section-title">Uw antwoorden</p>
   <table class="answers-table" id="answers-table">
@@ -244,8 +244,8 @@
   </div>
   <div class="cta-block">
     <div class="cta-text">
-      <h3>Klaar om actie te ondernemen?</h3>
-      <p>Boek een gratis 30 minuten gesprek met een AI-compliance specialist en zet de uitkomsten om in een concreet actieplan.</p>
+      <h3>Meer vragen?</h3>
+      <p>Neem vrijblijvend contact op voor verdere toelichting.</p>
     </div>
     <div style="display:flex;gap:12px;flex-wrap:wrap">
       <button class="btn-cta" onclick="window.open('mailto:info@bg.legal?subject=Afspraak Quickscan','_blank')">Neem contact op →</button>
@@ -256,7 +256,7 @@
 <script>
 const STEPS = {
   m0: 'Module 0 — Algemeen Projectprofiel',
-  m1: 'Module 1 — EU AI Act',
+  m1: 'Module 1 — AI Act',
   m2: 'Module 2 — AVG / GDPR',
   m3: 'Module 3 — Data Act',
   m4: 'Module 4 — Data Governance Act (DGA)',
@@ -350,10 +350,10 @@ const questions = [
     {label:'50–249 (middelgroot)',value:'50_249'},
     {label:'250 of meer (groot)',value:'250plus'}
   ]},
-  { id:'v1_1', step:'m1', type:'single', text:'Neemt het systeem besluiten die direct gevolgen hebben voor mensen, zonder dat een medewerker elk besluit individueel beoordeelt?', hint:'De EU AI Act stelt eisen aan AI-systemen, vooral als die worden ingezet in gevoelige contexten of geautomatiseerde beslissingen nemen die mensen raken.', skipIf:(a)=>!m1Active(a), options:[
+  { id:'v1_1', step:'m1', type:'single', text:'Neemt het systeem besluiten die direct gevolgen hebben voor mensen, zonder dat een medewerker elk besluit individueel beoordeelt?', hint:'De AI Act stelt eisen aan AI-systemen, vooral als die worden ingezet in gevoelige contexten of geautomatiseerde beslissingen nemen die mensen raken.', skipIf:(a)=>!m1Active(a), options:[
     {label:'Ja',value:'yes'},{label:'Nee — een medewerker beoordeelt altijd het advies van het systeem',value:'no'},{label:'Gedeeltelijk',value:'partial'},{label:'Weet ik niet',value:'unknown'}
   ]},
-  { id:'v1_2', step:'m1', type:'multi', text:'Wordt het systeem ingezet op een van de volgende gebieden?', hint:'Meerdere antwoorden mogelijk. Dit zijn de hoog-risico toepassingsgebieden van de EU AI Act.', skipIf:(a)=>!m1Active(a), options:[
+  { id:'v1_2', step:'m1', type:'multi', text:'Wordt het systeem ingezet op een van de volgende gebieden?', hint:'Meerdere antwoorden mogelijk. Dit zijn de hoog-risico toepassingsgebieden van de AI Act.', skipIf:(a)=>!m1Active(a), options:[
     {label:"Beoordeling van kredietwaardigheid of financiële risico's",value:'credit'},
     {label:'Werving, selectie of beoordeling van personeel',value:'hr'},
     {label:'Medische diagnose of behandeladvies',value:'medical'},
@@ -585,14 +585,14 @@ function submitEmail(){
 function computeModuleResults(){
   const a=answers;
   return [
-    {name:'EU AI Act',relevant:m1Active(a),phases:m1Active(a)?'Business, Functional, System':'—',priority:m1Active(a)?(a['v1_1']==='yes'&&a['v1_5']==='no'?'🔴 Nu':'🟡 Voor go-live'):'🟢 N.v.t.'},
-    {name:'AVG / GDPR',relevant:m2Active(a),phases:m2Active(a)?'Business, Data, Functional, System':'—',priority:m2Active(a)?(a['v2_1']==='no'||a['v2_2']&&(Array.isArray(a['v2_2'])&&(a['v2_2'].includes('tbd')||a['v2_2'].includes('unknown')))?'🔴 Nu':'🟡 Voor go-live'):'🟢 N.v.t.'},
-    {name:'Data Act',relevant:m3Active(a)&&a['v3_1']==='yes',phases:'Business, Data',priority:m3Active(a)&&a['v3_1']==='yes'?'🟡 Voor go-live':'🟢 N.v.t.'},
+    {name:'AI Act',relevant:m1Active(a),phases:m1Active(a)?'Business, Functional, System':'—',priority:m1Active(a)?(a['v1_1']==='yes'&&a['v1_5']==='no'?'🔴 Nu':'🟡 Voor livegang'):'🟢 N.v.t.'},
+    {name:'AVG / GDPR',relevant:m2Active(a),phases:m2Active(a)?'Business, Data, Functional, System':'—',priority:m2Active(a)?(a['v2_1']==='no'||a['v2_2']&&(Array.isArray(a['v2_2'])&&(a['v2_2'].includes('tbd')||a['v2_2'].includes('unknown')))?'🔴 Nu':'🟡 Voor livegang'):'🟢 N.v.t.'},
+    {name:'Data Act',relevant:m3Active(a)&&a['v3_1']==='yes',phases:'Business, Data',priority:m3Active(a)&&a['v3_1']==='yes'?'🟡 Voor livegang':'🟢 N.v.t.'},
     {name:'Data Governance Act',relevant:m4Active(a)&&a['v4_1']==='yes',phases:'Business, Data',priority:m4Active(a)&&a['v4_1']==='yes'?'🟡 Monitor':'🟢 N.v.t.'},
-    {name:'MDR / IVDR',relevant:m5Active(a)&&(a['v5_1']==='yes'||a['v5_2']==='yes'),phases:'Business, System',priority:m5Active(a)&&a['v5_1']==='yes'&&a['v5_3']==='no'?'🔴 Nu':'🟡 Voor go-live'},
+    {name:'MDR / IVDR',relevant:m5Active(a)&&(a['v5_1']==='yes'||a['v5_2']==='yes'),phases:'Business, System',priority:m5Active(a)&&a['v5_1']==='yes'&&a['v5_3']==='no'?'🔴 Nu':'🟡 Voor livegang'},
     {name:'NIS2',relevant:m6Active(a)&&a['v6_1']!=='none',phases:'Business, System',priority:m6Active(a)&&a['v6_1']!=='none'&&(a['v6_3']==='no'||a['v6_4']==='no')?'🔴 Nu':'🟡 Monitor'},
-    {name:'Cyber Resilience Act',relevant:m7Active(a)&&a['v7_1']==='yes',phases:'System',priority:m7Active(a)&&a['v7_1']==='yes'&&a['v7_2']==='no'?'🔴 Nu':'🟡 Voor go-live'},
-    {name:'European Accessibility Act',relevant:m8Active(a)&&a['v8_3']==='yes'&&a['v8_2']==='no',phases:'Business, System',priority:m8Active(a)&&a['v8_3']==='yes'&&a['v8_1']==='no'&&a['v8_2']==='no'?'🔴 Nu':'🟡 Voor go-live'},
+    {name:'Cyber Resilience Act',relevant:m7Active(a)&&a['v7_1']==='yes',phases:'System',priority:m7Active(a)&&a['v7_1']==='yes'&&a['v7_2']==='no'?'🔴 Nu':'🟡 Voor livegang'},
+    {name:'European Accessibility Act',relevant:m8Active(a)&&a['v8_3']==='yes'&&a['v8_2']==='no',phases:'Business, System',priority:m8Active(a)&&a['v8_3']==='yes'&&a['v8_1']==='no'&&a['v8_2']==='no'?'🔴 Nu':'🟡 Voor livegang'},
     {name:'IE-rechten',relevant:true,phases:'Business, Data, Functional',priority:(a['v9_1']==='yes'&&a['v9_2']==='no')||(a['v9_4']==='yes'&&(a['v9_2']==='no'||a['v9_2']==='unknown'))||a['v9_5']==='no'?'🔴 Nu':'🟡 Monitor'}
   ];
 }
@@ -601,9 +601,9 @@ function computeFindings(){
   const a=answers;const findings=[];
   if(m1Active(a)){
     const hrs=Array.isArray(a['v1_2'])?a['v1_2'].filter(v=>v!=='none'):[];
-    if(a['v1_1']==='yes'&&a['v1_5']==='no')findings.push({level:'blocker',name:'Black-box geautomatiseerde beslissing (AI Act + AVG)',desc:'Het systeem neemt geautomatiseerde besluiten die mensen raken, maar er is geen documentatie of uitlegbaarheid. Dit is een directe red flag onder zowel de AI Act als de AVG (recht op uitleg).',regs:'Art. 13 EU AI Act; Art. 22 AVG'});
-    if(hrs.length>0){const labels={credit:'Kredietwaardigheid',hr:'HR/Werving',medical:'Medisch',law:'Strafrecht/Rechtspraak',social:'Sociale voorzieningen',infra:'Kritieke infrastructuur'};findings.push({level:'blocker',name:'Hoog-risico AI-toepassing geïdentificeerd (Bijlage III AI Act)',desc:`Het systeem wordt ingezet in een of meer hoog-risico toepassingsgebieden: ${hrs.map(v=>labels[v]||v).join(', ')}. Een volledige conformiteitstoets is vereist voordat het systeem in gebruik wordt gesteld.`,regs:'Art. 6 lid 2 jo. Bijlage III EU AI Act'});}
-    if(a['v1_6']==='no')findings.push({level:'warning',name:'Geen menselijke herziening mogelijk (AI Act + AVG)',desc:'Betrokkenen kunnen geen menselijke beoordeling aanvragen. Dit is vereist bij geautomatiseerde besluiten met rechtsgevolgen (AVG art. 22) en onder de AI Act.',regs:'Art. 22 AVG; Art. 26 EU AI Act'});
+    if(a['v1_1']==='yes'&&a['v1_5']==='no')findings.push({level:'blocker',name:'Black-box geautomatiseerde beslissing (AI Act + AVG)',desc:'Het systeem neemt geautomatiseerde besluiten die mensen raken, maar er is geen documentatie of uitlegbaarheid. Dit is een directe red flag onder zowel de AI Act als de AVG (recht op uitleg).',regs:'Art. 13 AI Act; Art. 22 AVG'});
+    if(hrs.length>0){const labels={credit:'Kredietwaardigheid',hr:'HR/Werving',medical:'Medisch',law:'Strafrecht/Rechtspraak',social:'Sociale voorzieningen',infra:'Kritieke infrastructuur'};findings.push({level:'blocker',name:'Hoog-risico AI-toepassing geïdentificeerd (Bijlage III AI Act)',desc:`Het systeem wordt ingezet in een of meer hoog-risico toepassingsgebieden: ${hrs.map(v=>labels[v]||v).join(', ')}. Een volledige conformiteitstoets is vereist voordat het systeem in gebruik wordt gesteld.`,regs:'Art. 6 lid 2 jo. Bijlage III AI Act'});}
+    if(a['v1_6']==='no')findings.push({level:'warning',name:'Geen menselijke herziening mogelijk (AI Act + AVG)',desc:'Betrokkenen kunnen geen menselijke beoordeling aanvragen. Dit is vereist bij geautomatiseerde besluiten met rechtsgevolgen (AVG art. 22) en onder de AI Act.',regs:'Art. 22 AVG; Art. 26 AI Act'});
   }
   if(m2Active(a)){
     if(a['v2_1']==='no')findings.push({level:'blocker',name:'Geen verwerkingsverantwoordelijke aangewezen (AVG)',desc:'Er is geen formele verwerkingsverantwoordelijke aangewezen. Dit is een basisvereiste van de AVG en moet direct worden geregeld.',regs:'Art. 4 lid 7 AVG'});
@@ -640,7 +640,7 @@ function computeFindings(){
     else if(a['v8_1']==='partial')findings.push({level:'warning',name:'Gedeeltelijke toegankelijkheid — WCAG-audit aanbevolen (EAA)',desc:'De toegankelijkheid is nog niet volledig op orde. Een WCAG-audit en actieplan zijn aanbevolen vóór de wettelijke deadline van 28 juni 2025.',regs:'EAA; WCAG 2.1 AA'});
   }
   if(a['v9_1']==='yes'&&(a['v9_2']==='no'||a['v9_2']==='unknown'))findings.push({level:'blocker',name:'Ongecontroleerd gebruik beschermde databronnen (Auteursrecht / Databankrecht)',desc:'U gebruikt beschermde databronnen maar heeft de licentievoorwaarden niet (volledig) gecontroleerd. Dit levert auteursrechtelijk en databankrecht-risico op.',regs:'Auteurswet; Databankenwet; DSM-richtlijn'});
-  if(a['v9_4']==='yes'&&(a['v9_2']==='no'||a['v9_2']==='unknown'))findings.push({level:'blocker',name:'Auteursrechtrisico trainingsdata (AI Act + DSM-richtlijn)',desc:'Het AI-model is getraind op data van derden maar licenties zijn niet gecontroleerd. Dit kan leiden tot auteursrechtschendingen en compliance-problemen onder de AI Act (art. 53 GPAI-verplichtingen).',regs:'Art. 4 DSM-richtlijn; Art. 53 EU AI Act'});
+  if(a['v9_4']==='yes'&&(a['v9_2']==='no'||a['v9_2']==='unknown'))findings.push({level:'blocker',name:'Auteursrechtrisico trainingsdata (AI Act + DSM-richtlijn)',desc:'Het AI-model is getraind op data van derden maar licenties zijn niet gecontroleerd. Dit kan leiden tot auteursrechtschendingen en compliance-problemen onder de AI Act (art. 53 GPAI-verplichtingen).',regs:'Art. 4 DSM-richtlijn; Art. 53 AI Act'});
   if(a['v9_5']==='no')findings.push({level:'warning',name:'Onduidelijk eigendomsregime model en data',desc:'Er is intern geen afspraak gemaakt over eigendomsrechten van het model, de data en de gegenereerde output. Dit leidt tot juridische onzekerheid bij samenwerking of bij conflict.',regs:'Contractenrecht; Auteurswet art. 7-8'});
   if(a['v9_6']==='yes')findings.push({level:'warning',name:"Mogelijke inbreuk op merk of octrooirecht",desc:"Er worden mogelijk merken, logo's of geoctrooieerde methoden van derden gebruikt. Een IP-clearance is aanbevolen voordat het systeem extern wordt ingezet.",regs:'Merkenrecht; Octrooirecht'});
   if(findings.length===0)findings.push({level:'info',name:'Geen directe compliance-showstoppers geïdentificeerd',desc:'Op basis van de verstrekte antwoorden zijn er geen directe compliance-blokkades vastgesteld. Aanbeveling: documenteer uw compliance-aanpak en hertoets periodiek naarmate het project vordert.',regs:'AI Assessment Cycle — alle fasen'});
@@ -806,7 +806,7 @@ function showResults(){
   const rb=document.getElementById('risk-band');
   const hasBlocker=findings.some(f=>f.level==='blocker'),hasWarning=findings.some(f=>f.level==='warning');
   if(hasBlocker){rb.className='risk-band high';rb.textContent='⬤ Directe actie vereist — kritieke compliance-issues geïdentificeerd';}
-  else if(hasWarning){rb.className='risk-band medium';rb.textContent='◑ Actie vereist voor go-live — aandachtspunten aanwezig';}
+  else if(hasWarning){rb.className='risk-band medium';rb.textContent='◑ Actie vereist voor livegang — aandachtspunten aanwezig';}
   else{rb.className='risk-band low';rb.textContent='○ Geen directe blokkades — monitor en documenteer';}
 
   const tbody=document.getElementById('module-tbody');tbody.innerHTML='';
@@ -824,7 +824,7 @@ function showResults(){
   findings.forEach(f=>{
     const card=document.createElement('div');
     card.className='priority-card'+(f.level==='blocker'?' blocker':f.level==='warning'?' warning':'');
-    card.innerHTML=`<div class="priority-icon ${f.level}">${iconMap[f.level]||'•'}</div><div class="priority-body"><div class="priority-name">${f.name}</div><div class="priority-desc">${f.desc}</div>${f.regs?`<div class="priority-regs">${f.regs}</div>`:''}<div class="priority-level ${f.level}">${f.level==='blocker'?'● Directe actie vereist':f.level==='warning'?'◑ Actie vereist voor go-live':f.level==='info'?'○ Ter informatie':'ℹ Aandachtspunt'}</div></div>`;
+    card.innerHTML=`<div class="priority-icon ${f.level}">${iconMap[f.level]||'•'}</div><div class="priority-body"><div class="priority-name">${f.name}</div><div class="priority-desc">${f.desc}</div>${f.regs?`<div class="priority-regs">${f.regs}</div>`:''}<div class="priority-level ${f.level}">${f.level==='blocker'?'● Directe actie vereist':f.level==='warning'?'◑ Actie vereist voor livegang':f.level==='info'?'○ Ter informatie':'ℹ Aandachtspunt'}</div></div>`;
     list.appendChild(card);
   });
 
