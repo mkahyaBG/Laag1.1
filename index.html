@@ -672,12 +672,12 @@ function buildReportText(){
     }
     lines.push('V: '+q.text);lines.push('A: '+ansStr);
   });
-  lines.push('\nBG.legal | webmaster@bg.legal');
+  lines.push('\nBG.legal | noreply@bg.legal');
   return lines.join('\n');
 }
 
 async function sendEmails(userEmail,reportText){
-  const BG_EMAIL='webmaster@bg.legal';
+  const BG_EMAIL='noreply@bg.legal';
   const dateStr=new Date().toLocaleDateString('nl-NL',{day:'2-digit',month:'long',year:'numeric'});
   const fd1=new FormData();
   fd1.append('_to',userEmail);fd1.append('_replyto',BG_EMAIL);fd1.append('_subject','Uw AI/Data Compliance Rapport — bg.legal');fd1.append('_template','box');
